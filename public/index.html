@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="wa-logo.ico" type="image/x-icon">
+    <title>alpha-md</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      button {
+      background-color: #3498db;
+      color: #ffffff; 
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease; 
+    }
+
+    button:hover {
+      background-color: #2980b9; 
+    }
+      .content {
+        text-align: center;
+        display: none; 
+      }
+      .custom-loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 8px solid #000000;
+  animation:
+    s10-1 0.4s infinite linear alternate,
+    s10-2 0.8s infinite linear;
+}
+@keyframes s10-1{
+   0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
+   12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
+   25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
+   50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+   62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+   75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
+   100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
+}
+@keyframes s10-2{ 
+  0%    {transform:scaleY(1)  rotate(0deg)}
+  49.99%{transform:scaleY(1)  rotate(135deg)}
+  50%   {transform:scaleY(-1) rotate(0deg)}
+  100%  {transform:scaleY(-1) rotate(-135deg)}
+}
+</style>
+</head>
+<body>
+  <div class="content">
+    <h1>Get QR Code</h1>
+    <button onclick="getQR()">Get QR Code</button>
+  </div>
+  <div class="custom-loader"></div>
+  <script>
+    function getQR() {
+      const userId = generateRandomUserId();
+      window.location.href = `/qr?id=${userId}`;
+    }
+
+    function generateRandomUserId() {
+      const randomBytes = crypto.getRandomValues(new Uint8Array(7));
+      const userId = Array.from(randomBytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+      return userId;
+    }
+    setTimeout(function() {
+      const loader = document.querySelector('.custom-loader');
+      const content = document.querySelector('.content');
+
+      loader.style.display = 'none';
+      content.style.display = 'block';
+    }, 2000);
+  </script>
+</body>
+</html>
